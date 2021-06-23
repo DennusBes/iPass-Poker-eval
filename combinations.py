@@ -2,7 +2,6 @@
 from cards import available_cards
 
 
-
 def count_ranks():
     '''This function put a counter next to all different ranks found in the available cards'''
     current_cards = available_cards()
@@ -57,17 +56,14 @@ def check_straight():
     for i in range(len(cards_ranksonly)):
         if straight_counter==0:
             straight_counter+=1
-            print(f'{straight_counter} cards in a row, with card {cards_ranksonly[i]}')
             continue
         if cards_ranksonly[i-1]+1==cards_ranksonly[i]:
             straight_counter += 1
         else:
             straight_counter = 1
         if straight_counter>=5:
-            print(f'{straight_counter} cards in a row, with card {cards_ranksonly[i]}')
-            print('STRAIGHT DETECTED')
             return [cards_ranksonly[i-4],cards_ranksonly[i-3],cards_ranksonly[i-2],cards_ranksonly[i-1],cards_ranksonly[i]]
-        print(f'{straight_counter} cards in a row, with card {cards_ranksonly[i]}')
+
 
 
 
@@ -95,19 +91,19 @@ def check_flush():
             duplicates[key]=value
     if len(duplicates)>0:
         return duplicates
-
     else:
         return None
-i=0
-while True:
-    i += 1
-    print(i)
-    kijkdan = check_flush()
-    if kijkdan !=None:
-        print(kijkdan)
 
-        
-        print("kaas")
+def check_straightflush():
+    '''This function check for a straight flush in the available cards
+    A straight flush, is a straight in which all cards have the same suit
+    This function will return 5 cards if a straight flush has been found.
+    If there is no straight flush, return none'''
+    if check_straight()==None:
+        return None
+    straight_ranks = check_straight()
 
 
-        quit()
+
+
+check_straightflush()
