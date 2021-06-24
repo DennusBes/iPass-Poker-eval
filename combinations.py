@@ -99,11 +99,13 @@ def check_straightflush():
     A straight flush, is a straight in which all cards have the same suit
     This function will return 5 cards if a straight flush has been found.
     If there is no straight flush, return none'''
+    sc = sort_cards()
+    print(sc)
     if check_straight()==None:
         return None
-    straight_ranks = check_straight()
+    straight_ranks = check_straight()       # straight_ranks = list containing the ranks of cards that form a straight
+    sc=sort_cards()
+    print(sc)
 
-
-
-
-check_straightflush()
+#while True:
+print(check_straightflush())

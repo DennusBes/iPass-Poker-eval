@@ -32,6 +32,30 @@ for cardsF in flop
             score goes up, (score height depends on what card was a pair)
             combinations.append combination that has been found
 
+-----------------------------------------------straight flush--------------------------------------------
+function to check if there is a straight flush.
+This function will make it very easy to check for a royal flush.
+straight flush will return the 5 cards that make up the straight flush in an ordered manner.
+If the last card is an Ace, there is a royal flush
+
+check for striaght flush:
+check if there is even a straight\
+
+Loop through all cards ( the cards are sorted already ):
+
+    if card not in straight:
+        continue
+    if list is emtpy:
+
+        append the RANK & SUIT to a list
+    if next card is a rank thats already in the list:
+        append it aswell
+    if next card is a rank that isnt in the list yet, check if there is a card with that rank that is from a suit thats already in the list
+    if there is:
+        append the RANK & SUIT to a list
+    if there isnt:
+        there is no straight flush
+
 
 
 
