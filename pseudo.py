@@ -45,7 +45,7 @@ Loop through all cards ( the cards are sorted already ):
 
     if card not in straight:
         continue
-    if list is emtpy:
+    if newlist is emtpy:
 
         append the RANK & SUIT to a list
     if next card is a rank thats already in the list:

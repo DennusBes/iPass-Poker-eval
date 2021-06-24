@@ -1,13 +1,15 @@
 #this file will be used to check for valuable combinations of cards
-from cards import available_cards
+from cards import available_cards as ac
+
+global available_cards   #I'd like to not have a global variable, as I got told it's generally bad practice to use them. This is however currently not my focus in this project.
+available_cards = ac()
 
 
-def count_ranks():
+def count_ranks(available_cards):
     '''This function put a counter next to all different ranks found in the available cards'''
-    current_cards = available_cards()
     cardcounter={}
-    #Add cards to dict, if card already exists in dict add 1 to the value
-    for card in current_cards:
+    #Add cards to dict. if card already exists in dict, add 1 to the value instead
+    for card in available_cards:
         if card[0] in cardcounter:
             cardcounter[card[0]]+=1
         else:
@@ -20,7 +22,7 @@ def check_duplicates():
     This includes: 2 of a kind, 3 of a kind, 4 of a kind & Full house
     The function will only return the rank and the amount of duplicates there are in the available cards,
     If there is no dupes, return none'''
-    cardcounter = count_ranks()
+    cardcounter = count_ranks(available_cards)
     duplicates={}
     for key,value in cardcounter.items():
         if value>1:
@@ -32,7 +34,7 @@ def check_duplicates():
 
 def sort_cards():
     ''' This function will take  the count_ranks dict, and return it sorted '''
-    cr = count_ranks()
+    cr = count_ranks(available_cards)
     sorted_cards = dict(sorted(cr.items()))
     return sorted_cards
 
@@ -63,17 +65,16 @@ def check_straight():
             straight_counter = 1
         if straight_counter>=5:
             return [cards_ranksonly[i-4],cards_ranksonly[i-3],cards_ranksonly[i-2],cards_ranksonly[i-1],cards_ranksonly[i]]
+    return None
 
 
 
 
-
-def count_suits():
+def count_suits(available_cards):
     '''This function put a counter next to all different suits found in the available cards'''
-    current_cards = available_cards()
     cardcounter={}
     #Add suit to dict, if suit already exists in dict add 1 to the value
-    for card in current_cards:
+    for card in available_cards:
         if card[1] in cardcounter:
             cardcounter[card[1]]+=1
         else:
@@ -94,18 +95,28 @@ def check_flush():
     else:
         return None
 
-def check_straightflush():
+def check_straightflush(available_cards):
     '''This function check for a straight flush in the available cards
     A straight flush, is a straight in which all cards have the same suit
     This function will return 5 cards if a straight flush has been found.
     If there is no straight flush, return none'''
-    sc = sort_cards()
-    print(sc)
-    if check_straight()==None:
+    straight_ranks = check_straight()
+    if straight_ranks==None:
         return None
-    straight_ranks = check_straight()       # straight_ranks = list containing the ranks of cards that form a straight
-    sc=sort_cards()
-    print(sc)
+    sf=[]                                   # list used for checking if the cards make a straight flush
+    available_cards                  # cc is abreviated for current cards
+          # straight_ranks = list containing the ranks of cards that form a straight
 
-#while True:
-print(check_straightflush())
+    print(f'straight contains the following cards: {straight_ranks}')
+    for card in available_cards:
+        if card[0] not in straight_ranks:
+            continue
+        sf.append(card)
+    return sf
+
+
+while True:
+    if check_duplicates() != None and check_straightflush(available_cards)!= None:
+        print(available_cards)
+        print(check_straightflush(available_cards))
+    available_cards = ac()
