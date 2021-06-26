@@ -85,7 +85,7 @@ def check_flush():
     '''This function will check for duplicates in counted suits
     This function will return the suit of which there are 5 or more in the available cards
     If there is no dupes, return none'''
-    cardcounter = count_suits()
+    cardcounter = count_suits(available_cards)
     duplicates={}
     for key,value in cardcounter.items():
         if value>=5:
@@ -100,23 +100,26 @@ def check_straightflush(available_cards):
     A straight flush, is a straight in which all cards have the same suit
     This function will return 5 cards if a straight flush has been found.
     If there is no straight flush, return none'''
+    sf=[] # sf is a list which will keep track of which cards could be part of the straight flush
     straight_ranks = check_straight()
-    if straight_ranks==None:
+    flush_suit = check_flush()
+    if check_flush()== None or check_straight()==None:  # If there is no flush, or no straight, there can't be a straightflush either
         return None
-    sf=[]                                   # list used for checking if the cards make a straight flush
-    available_cards                  # cc is abreviated for current cards
-          # straight_ranks = list containing the ranks of cards that form a straight
-
-    print(f'straight contains the following cards: {straight_ranks}')
     for card in available_cards:
-        if card[0] not in straight_ranks:
-            continue
-        sf.append(card)
-    return sf
+        if card[0] in straight_ranks:
+            if card[1] in flush_suit:
+                sf.append(card)
+    if len(sf)==5:
+        return sf
+    else:
+        return None
 
 
+#quick check to se
+i=0
 while True:
-    if check_duplicates() != None and check_straightflush(available_cards)!= None:
-        print(available_cards)
+    i+=1
+    if check_straightflush(available_cards)!=None:
         print(check_straightflush(available_cards))
+        quit()
     available_cards = ac()

@@ -1,5 +1,5 @@
 '''
-THIS PSEUDO CODE ISN'T RELEVANT, AS THE CODE HAS BEEN REVISIONED
+THIS PSEUDO CODE ISN'T ACCURATE, BECAUSE THE CODE HAS BEEN RESTRUCTURED
 I've left this in for the sake of transparency
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -40,21 +40,27 @@ If the last card is an Ace, there is a royal flush
 
 check for striaght flush:
 check if there is even a straight\
-
+    lets say there is a straight, 2,3,4,5,6
 Loop through all cards ( the cards are sorted already ):
 
-    if card not in straight:
-        continue
-    if newlist is emtpy:
 
-        append the RANK & SUIT to a list
-    if next card is a rank thats already in the list:
-        append it aswell
-    if next card is a rank that isnt in the list yet, check if there is a card with that rank that is from a suit thats already in the list
-    if there is:
-        append the RANK & SUIT to a list
-    if there isnt:
-        there is no straight flush
+    if card rank not in straight:
+        continue
+    if card rank in straight
+        if cardrank is straight[0]
+            2 Aces is in straight, so append to a flushlist,
+            there is a 2 Hearts (different suit) append that to the flushlist aswell
+
+        now onto the '3'. Let's say there's two 3's available.
+        for checkcard in flushlist
+            if card[1] ==checkcard[1]
+
+WHAT IF i could use checkflush function to decide what rank even has a possibilty to get a flush at all
+
+for card in all_cards:
+    if card rank not in straight:
+        continue
+
 
 
 
