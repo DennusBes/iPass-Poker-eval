@@ -32,18 +32,25 @@ def deal_cards():
         dealdeck.remove(river[0])
     return hand,flop,turn,river,dealdeck
 
-def available_cards():
-    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    #turn = 2 is a temporary way getting more cards into available hand
-    turns =2
+def available_cards(turn):
     total_cards=deal_cards()
+
     #index 0 and 1 are hand and flop respectively
     available_cards=total_cards[0]+total_cards[1]
 
-    if turns  > 0:  # add river bijvoorbeeld, turn maak ik aan in de simulatie van de stappen ergens
+    # these are the cards that havent been dealt yet
+    leftovercards = total_cards[4]
+
+    if turn ==0:
+        leftovercards += total_cards[2]  # add turn to leftover, since they arent known yet
+        leftovercards += total_cards[3]  # add river to leftover, since they arent known yet
+    if turn  ==1:  # add turn
         available_cards+=total_cards[2]   #turn
+        leftovercards+= total_cards[3]    # add river to leftover, since they arent known yet
+    elif turn>=1:   # add turn and river
+        available_cards+=total_cards[2]  # turn
         available_cards+=total_cards[3]   #river
-    return  available_cards
+    return  available_cards, leftovercards
 
 
 

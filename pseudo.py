@@ -61,6 +61,14 @@ for card in all_cards:
     if card rank not in straight:
         continue
 
+--------------------------------------------calculate odds-------------------------------------------------
+Start with check turn
+if turn is 1, meaning only flop and hand are available, make a list of all possible combinations
+if turn is 2, meaning flop,hand and turn are available, use dealcards[5] or whatever 'dealdeck' is, as possible cards
+
+loop through available cards+combinations, and keep track of the total amount of loops, and the amount of times things like checkflush() returned != None
+calculate percentage and return it nicely :)
+
 
 
 

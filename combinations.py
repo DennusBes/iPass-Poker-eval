@@ -1,8 +1,12 @@
 #this file will be used to check for valuable combinations of cards
 from cards import available_cards as ac
 
+turn=0
+
 global available_cards   #I'd like to not have a global variable, as I got told it's generally bad practice to use them. This is however currently not my focus in this project.
-available_cards = ac()
+available_cards = ac(turn)[0]
+global leftover_cards
+leftover_cards = ac(turn)[1]
 
 
 def count_ranks(available_cards):
@@ -114,12 +118,45 @@ def check_straightflush(available_cards):
     else:
         return None
 
+def check_turn(available_cards):
+    '''This function checks what turn the game is on
+    very ugly function'''
+    turn=0
+    if len(available_cards)==5:
+        return  turn
+    if len(available_cards)==6:
+        turn=1
+        return turn
+    if len(available_cards)>6:
+        turn=2
+        return turn
 
-#quick check to se
-i=0
-while True:
-    i+=1
-    if check_straightflush(available_cards)!=None:
-        print(check_straightflush(available_cards))
+
+def leftover_options(leftover_cards):
+    '''This function creates all possible leftover options
+    The amount of options is based on the turn, which is calculated in check_turns
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    Currently this function adds redundant options. for instance : both [A,B] and [B,A] are added. this is bad and results in alot of useless options
+    I think this can get solved by using sets
+    '''
+    turns = check_turn(available_cards)
+    if turn == 1:
+        return leftover_cards
+    if turn == 0:
+        leftoverlist=[]
+        for card1 in leftover_cards:
+            for card2 in leftover_cards:
+                if card1 !=card2:
+                    leftoverlist.append([card1,card2])
+        print(leftoverlist)
+        print(len(leftoverlist))
+        return leftoverlist
+    if turn > 1:
+        print("The game is over. No point in calculating more.")
         quit()
-    available_cards = ac()
+
+leftover_options(leftover_cards)
+def calculate_odds():
+    ''' This function will loop through the available options, which are generated in leftover_options
+    in this loop the options will get added to the current available cards and the results of check dupes etc will get written down
+    '''
