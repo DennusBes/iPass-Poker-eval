@@ -13,6 +13,7 @@ def count_ranks(available_cards):
     '''This function put a counter next to all different ranks found in the available cards'''
     cardcounter={}
     #Add cards to dict. if card already exists in dict, add 1 to the value instead
+
     for card in available_cards:
         if card[0] in cardcounter:
             cardcounter[card[0]]+=1
@@ -21,7 +22,7 @@ def count_ranks(available_cards):
     return cardcounter
 
 
-def check_duplicates():
+def check_duplicates(available_cards):
     '''This function will check for duplicates in counted ranks
     This includes: 2 of a kind, 3 of a kind, 4 of a kind & Full house
     The function will only return the rank and the amount of duplicates there are in the available cards,
@@ -36,13 +37,13 @@ def check_duplicates():
     else:
         return None
 
-def sort_cards():
+def sort_cards(available_cards):
     ''' This function will take  the count_ranks dict, and return it sorted '''
     cr = count_ranks(available_cards)
     sorted_cards = dict(sorted(cr.items()))
     return sorted_cards
 
-def check_straight():
+def check_straight(available_cards):
     '''This function will determine if there is a straight
     This function will return the 5 cards from the straight. If there is no straight : None
     it will do this by looping through the sorted cards, and adding 1 to a counter every time a card fits into a straight
@@ -55,7 +56,7 @@ def check_straight():
     go next, which is 8, which fits into a straight with the previous card, add 1 to counterm, counter is now 2
     go next, which is 11, which DOESNT fit into a straight with the previous cards, reset counter to 1'''
 
-    sc = sort_cards()
+    sc = sort_cards(available_cards)
     cards_ranksonly=list(sc) #cards_ranksonly is a list with only the unique ranks found in the available cards
     straight_counter=0  # counter explained in docstring in check_straight
 
@@ -85,7 +86,7 @@ def count_suits(available_cards):
             cardcounter[card[1]]=1
     return cardcounter
 
-def check_flush():
+def check_flush(available_cards):
     '''This function will check for duplicates in counted suits
     This function will return the suit of which there are 5 or more in the available cards
     If there is no dupes, return none'''
@@ -105,9 +106,9 @@ def check_straightflush(available_cards):
     This function will return 5 cards if a straight flush has been found.
     If there is no straight flush, return none'''
     sf=[] # sf is a list which will keep track of which cards could be part of the straight flush
-    straight_ranks = check_straight()
-    flush_suit = check_flush()
-    if check_flush()== None or check_straight()==None:  # If there is no flush, or no straight, there can't be a straightflush either
+    straight_ranks = check_straight(available_cards)
+    flush_suit = check_flush(available_cards)
+    if check_flush(available_cards)== None or check_straight(available_cards)==None:  # If there is no flush, or no straight, there can't be a straightflush either
         return None
     for card in available_cards:
         if card[0] in straight_ranks:
@@ -137,7 +138,7 @@ def leftover_options(leftover_cards):
     The amount of options is based on the turn, which is calculated in check_turns
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     Currently this function adds redundant options. for instance : both [A,B] and [B,A] are added. this is bad and results in alot of useless options
-    I think this can get solved by using sets
+    This won't affect the % odds, only the count.
     '''
     turns = check_turn(available_cards)
     if turn == 1:
@@ -148,15 +149,33 @@ def leftover_options(leftover_cards):
             for card2 in leftover_cards:
                 if card1 !=card2:
                     leftoverlist.append([card1,card2])
-        print(leftoverlist)
-        print(len(leftoverlist))
         return leftoverlist
     if turn > 1:
         print("The game is over. No point in calculating more.")
         quit()
 
-leftover_options(leftover_cards)
 def calculate_odds():
     ''' This function will loop through the available options, which are generated in leftover_options
-    in this loop the options will get added to the current available cards and the results of check dupes etc will get written down
+    in this loop the options will get added to the current available cards and the results of check dupes etc will get counted
     '''
+    options=leftover_options(leftover_cards)
+    temp_ac=ac(turn)[0]
+    dupes,straight,flush,sf = 0,0,0,0
+    print(len(options))
+    for option in options:
+        temp_ac = available_cards
+        temp_ac.append(option)
+
+        if check_duplicates(temp_ac) !=None:
+            dupes+=1
+
+        if check_straight(temp_ac) != None:
+            straight+=1
+
+        if check_flush(temp_ac) != None:
+            flush+=1
+
+        if check_straightflush(temp_ac) != None:
+            sf+=1
+    print(f'dupe {(dupes/len(options))*100}%,\nstraight {(straight/len(options))*100}%,\nflush {(flush/len(options))*100}%,\nstraight flush {(sf/len(options))*100},')
+calculate_odds()
