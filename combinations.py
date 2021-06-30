@@ -11,9 +11,7 @@ leftover_cards = ac(turn)[1]
 
 def count_ranks(available_cards):
     '''This function put a counter next to all different ranks found in the available cards'''
-    cardcounter={}
-    #Add cards to dict. if card already exists in dict, add 1 to the value instead
-
+    cardcounter={} #Add cards to dict. if card already exists in dict, add 1 to the value instead
     for card in available_cards:
         if card[0] in cardcounter:
             cardcounter[card[0]]+=1
@@ -164,6 +162,7 @@ def calculate_odds(available_cards):
     options=leftover_options(leftover_cards)
 
     defaultcards = available_cards
+    print(defaultcards)
     pair,straight,flush,sf,tok,fh,fok,tp = 0,0,0,0,0,0,0,0  # tok= three of a kind,    fh= full house,       fok=  four of a kind           tp = two pair
     for option in options:
         temp_ac = []
@@ -199,7 +198,7 @@ def calculate_odds(available_cards):
           f'Four of a kind:    {(fok/len(options))*100}%,\n'
           f'Full House:        {(fh/len(options))*100}%,\n'
           f'Straight           {(straight/len(options))*100}%,\n'
-          f'flush              {(flush/len(options))*100}%,\n'
-          f'straight flush     {(sf/len(options))*100}%')
+          f'Flush              {(flush/len(options))*100}%,\n'
+          f'Straight flush     {(sf/len(options))*100}%')
 
 calculate_odds(available_cards)
