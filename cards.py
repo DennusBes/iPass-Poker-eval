@@ -47,7 +47,7 @@ def available_cards(turn):
     if turn  ==1:  # add turn
         available_cards+=total_cards[2]   #turn
         leftovercards+= total_cards[3]    # add river to leftover, since they arent known yet
-    elif turn>=1:   # add turn and river
+    elif turn==2:   # add turn and river
         available_cards+=total_cards[2]  # turn
         available_cards+=total_cards[3]   #river
     return  available_cards, leftovercards

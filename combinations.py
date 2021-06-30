@@ -154,28 +154,52 @@ def leftover_options(leftover_cards):
         print("The game is over. No point in calculating more.")
         quit()
 
-def calculate_odds():
+def calculate_odds(available_cards):
     ''' This function will loop through the available options, which are generated in leftover_options
     in this loop the options will get added to the current available cards and the results of check dupes etc will get counted
+    in the end the results will get divided by the total amount of options, and then multiplied by 100. This will result in a %
+    This % is the % of ALL options which will result in a wanted combination
     '''
-    options=leftover_options(leftover_cards)
-    temp_ac=ac(turn)[0]
-    dupes,straight,flush,sf = 0,0,0,0
-    print(len(options))
-    for option in options:
-        temp_ac = available_cards
-        temp_ac.append(option)
 
-        if check_duplicates(temp_ac) !=None:
-            dupes+=1
+    options=leftover_options(leftover_cards)
+
+    defaultcards = available_cards
+    pair,straight,flush,sf,tok,fh,fok,tp = 0,0,0,0,0,0,0,0  # tok= three of a kind,    fh= full house,       fok=  four of a kind           tp = two pair
+    for option in options:
+        temp_ac = []
+        temp_ac = defaultcards.copy()
+
+        if check_turn(available_cards)==1:
+            temp_ac.append(option)         #If only 1 card per option, just append
+        else:
+            for opt in option:             #If there's multiple cards to be added per option, use a loop
+                temp_ac.append(opt)
+
+        dupes = check_duplicates(temp_ac)
+        if dupes!=None:
+                if 3 in dupes.values() and 2 in dupes.values():
+                    fh+=1
+                if 4 in dupes.values():
+                    fok+=1
+                if 3 in dupes.values() and not 2 in dupes.values():
+                    tok+=1
+                if 2 in dupes.values() and not 3 in dupes.values():
+                    pair+=1
 
         if check_straight(temp_ac) != None:
             straight+=1
-
         if check_flush(temp_ac) != None:
             flush+=1
-
         if check_straightflush(temp_ac) != None:
             sf+=1
-    print(f'dupe {(dupes/len(options))*100}%,\nstraight {(straight/len(options))*100}%,\nflush {(flush/len(options))*100}%,\nstraight flush {(sf/len(options))*100},')
-calculate_odds()
+
+
+    print(f'Pair:              {(pair/len(options))*100}%,\n'
+          f'Three of a kind:   {(tok/len(options))*100}%,\n'
+          f'Four of a kind:    {(fok/len(options))*100}%,\n'
+          f'Full House:        {(fh/len(options))*100}%,\n'
+          f'Straight           {(straight/len(options))*100}%,\n'
+          f'flush              {(flush/len(options))*100}%,\n'
+          f'straight flush     {(sf/len(options))*100}%')
+
+calculate_odds(available_cards)
