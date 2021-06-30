@@ -163,17 +163,14 @@ def calculate_odds(available_cards):
 
     defaultcards = available_cards
     print(defaultcards)
-    pair,straight,flush,sf,tok,fh,fok,tp = 0,0,0,0,0,0,0,0  # tok= three of a kind,    fh= full house,       fok=  four of a kind           tp = two pair
+    pair,straight,flush,sf,tok,fh,fok,tp = 0,0,0,0,0,0,0,0  # tok= three of a kind,  fh= full house,  fok=  four of a kind   tp = two pair
     for option in options:
-        temp_ac = []
         temp_ac = defaultcards.copy()
-
         if check_turn(available_cards)==1:
             temp_ac.append(option)         #If only 1 card per option, just append
         else:
             for opt in option:             #If there's multiple cards to be added per option, use a loop
                 temp_ac.append(opt)
-
         dupes = check_duplicates(temp_ac)
         if dupes!=None:
                 if 3 in dupes.values() and 2 in dupes.values():
@@ -184,14 +181,12 @@ def calculate_odds(available_cards):
                     tok+=1
                 if 2 in dupes.values() :
                     pair+=1
-
         if check_straight(temp_ac) != None:
             straight+=1
         if check_flush(temp_ac) != None:
             flush+=1
         if check_straightflush(temp_ac) != None:
             sf+=1
-
 
     print(f'Pair:              {(pair/len(options))*100}%,\n'
           f'Three of a kind:   {(tok/len(options))*100}%,\n'
