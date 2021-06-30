@@ -46,13 +46,13 @@ def check_straight(available_cards):
     This function will return the 5 cards from the straight. If there is no straight : None
     it will do this by looping through the sorted cards, and adding 1 to a counter every time a card fits into a straight
     if this counter becomes 5, there is a straight
-    for instance: loop through cards :  2,3,4,7,8,11,14
+    for instance: loop through cards :  2,3,4,7,8,J,A
     start at 2, add 1 to counter
     go next, which is 3, which fits into a straight with the previous card, add 1 to counter, counter is now 2
     go next, which is 4, which fits into a straight with the previous card, add 1 to counter, counter is now 3
     go next, which is 7, which DOESNT fit into a straight with the previous cards, reset counter to 1
     go next, which is 8, which fits into a straight with the previous card, add 1 to counterm, counter is now 2
-    go next, which is 11, which DOESNT fit into a straight with the previous cards, reset counter to 1'''
+    go next, which is J, which DOESNT fit into a straight with the previous cards, reset counter to 1'''
 
     sc = sort_cards(available_cards)
     cards_ranksonly=list(sc) #cards_ranksonly is a list with only the unique ranks found in the available cards
@@ -180,9 +180,9 @@ def calculate_odds(available_cards):
                     fh+=1
                 if 4 in dupes.values():
                     fok+=1
-                if 3 in dupes.values() and not 2 in dupes.values():
+                if 3 in dupes.values() :
                     tok+=1
-                if 2 in dupes.values() and not 3 in dupes.values():
+                if 2 in dupes.values() :
                     pair+=1
 
         if check_straight(temp_ac) != None:
